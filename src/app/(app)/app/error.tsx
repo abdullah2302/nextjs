@@ -7,7 +7,7 @@ export default function AppError(props: {
   reset: () => void;
 }) {
   return (
-    <div className="grid min-h-screen place-items-center px-5">
+    <div className="bg-grid grid min-h-screen place-items-center px-5">
       <SegmentError {...props} />
     </div>
   );

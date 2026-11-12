@@ -35,21 +35,21 @@ export function CommandPalette({ items }: { items: CommandItem[] }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open command palette"
-        className="flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2.5 text-sm text-ink-soft transition-colors hover:border-brand sm:py-2"
+        className="border-edge bg-surface hover:bg-lime hover:text-ink flex items-center gap-2 rounded-full border-2 px-3 py-2 text-sm font-semibold transition-colors"
       >
         <svg
           viewBox="0 0 24 24"
           className="size-4"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.2"
           strokeLinecap="round"
           aria-hidden="true"
         >
           <path d="M11 18a7 7 0 100-14 7 7 0 000 14zm9 3l-4.5-4.5" />
         </svg>
         <span className="hidden sm:inline">Search</span>
-        <kbd className="hidden rounded bg-paper px-1.5 py-0.5 text-[11px] font-medium sm:inline">
+        <kbd className="border-edge bg-paper hidden rounded border px-1.5 py-0.5 text-[11px] font-bold sm:inline">
           Ctrl K
         </kbd>
       </button>
@@ -63,7 +63,13 @@ export function CommandPalette({ items }: { items: CommandItem[] }) {
   );
 }
 
-function PaletteDialog({ items, onClose }: { items: CommandItem[]; onClose: () => void }) {
+function PaletteDialog({
+  items,
+  onClose,
+}: {
+  items: CommandItem[];
+  onClose: () => void;
+}) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
@@ -72,7 +78,8 @@ function PaletteDialog({ items, onClose }: { items: CommandItem[]; onClose: () =
     const q = query.trim().toLowerCase();
     if (!q) return items;
     return items.filter(
-      (item) => item.label.toLowerCase().includes(q) || item.group.toLowerCase().includes(q),
+      (item) =>
+        item.label.toLowerCase().includes(q) || item.group.toLowerCase().includes(q),
     );
   }, [items, query]);
 
@@ -97,14 +104,14 @@ function PaletteDialog({ items, onClose }: { items: CommandItem[]; onClose: () =
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-chrome/60 px-4 pt-[15vh] backdrop-blur-sm"
+      className="bg-chrome/70 fixed inset-0 z-50 flex items-start justify-center px-4 pt-[15vh] backdrop-blur-sm"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Command palette"
-        className="w-full max-w-lg overflow-hidden rounded-2xl border border-line bg-surface text-ink shadow-2xl"
+        className="sticker text-ink w-full max-w-lg overflow-hidden"
         onClick={(event) => event.stopPropagation()}
       >
         <input
@@ -113,7 +120,9 @@ function PaletteDialog({ items, onClose }: { items: CommandItem[]; onClose: () =
           role="combobox"
           aria-expanded="true"
           aria-controls="palette-list"
-          aria-activedescendant={results[active] ? `palette-${results[active].id}` : undefined}
+          aria-activedescendant={
+            results[active] ? `palette-${results[active].id}` : undefined
+          }
           value={query}
           onChange={(event) => {
             setQuery(event.target.value);
@@ -121,12 +130,14 @@ function PaletteDialog({ items, onClose }: { items: CommandItem[]; onClose: () =
           }}
           onKeyDown={onInputKeyDown}
           placeholder="Type a command or search..."
-          className="w-full border-b border-line bg-transparent px-5 py-4 text-base outline-none placeholder:text-ink-soft"
+          className="border-edge placeholder:text-ink-soft w-full border-b-2 bg-transparent px-5 py-4 text-base font-medium outline-none"
         />
 
         <ul id="palette-list" role="listbox" className="max-h-72 overflow-y-auto p-2">
           {results.length === 0 && (
-            <li className="px-3 py-6 text-center text-sm text-ink-soft">No results found.</li>
+            <li className="text-ink-soft px-3 py-6 text-center text-sm">
+              No results found.
+            </li>
           )}
           {results.map((item, index) => (
             <li
@@ -137,20 +148,25 @@ function PaletteDialog({ items, onClose }: { items: CommandItem[]; onClose: () =
               onMouseEnter={() => setActive(index)}
               onClick={() => go(item)}
               className={cn(
-                "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm",
-                index === active ? "bg-brand text-white" : "text-ink",
+                "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold",
+                index === active ? "bg-lime text-ink" : "text-ink",
               )}
             >
               <span>{item.label}</span>
-              <span className={cn("text-xs", index === active ? "text-white/70" : "text-ink-soft")}>
+              <span
+                className={cn(
+                  "text-xs font-medium",
+                  index === active ? "text-ink/70" : "text-ink-soft",
+                )}
+              >
                 {item.group}
               </span>
             </li>
           ))}
         </ul>
 
-        <p className="border-t border-line px-5 py-2.5 text-xs text-ink-soft">
-          Use arrow keys to move, Enter to open, Esc to close.
+        <p className="border-edge text-ink-soft border-t-2 px-5 py-2.5 text-xs">
+          Arrow keys to move, Enter to open, Esc to close.
         </p>
       </div>
     </div>

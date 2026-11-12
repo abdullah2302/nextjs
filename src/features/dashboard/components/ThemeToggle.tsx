@@ -7,10 +7,6 @@ type Theme = "light" | "dark";
 export function ThemeToggle({ initialTheme }: { initialTheme: Theme }) {
   const [theme, setTheme] = useState<Theme>(initialTheme);
 
-  // Day 3 exercise: this prints in the BROWSER console (and once in the terminal during SSR).
-  // eslint-disable-next-line no-console
-  console.log("[client] ThemeToggle rendered, theme =", theme);
-
   function toggle() {
     const next: Theme = theme === "dark" ? "light" : "dark";
     setTheme(next);
@@ -26,14 +22,14 @@ export function ThemeToggle({ initialTheme }: { initialTheme: Theme }) {
       onClick={toggle}
       aria-pressed={isDark}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      className="grid size-10 place-items-center rounded-full border border-line bg-surface text-ink-soft transition-colors hover:border-brand hover:text-ink"
+      className="border-edge bg-surface text-ink hover:bg-lime hover:text-ink grid size-10 place-items-center rounded-full border-2 transition-colors"
     >
       <svg
         viewBox="0 0 24 24"
         className="size-5"
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"

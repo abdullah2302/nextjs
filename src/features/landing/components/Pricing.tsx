@@ -1,11 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import { cn } from "@/lib/cn";
 
 const plans = [
   {
     name: "Starter",
-    price: "$0",
+    monthly: 0,
+    yearly: 0,
     note: "For small teams trying it out",
     features: [
       "Up to 5 members",
@@ -14,11 +18,13 @@ const plans = [
       "Community support",
     ],
     cta: "Start for free",
+    href: "/signup",
     featured: false,
   },
   {
     name: "Team",
-    price: "$12",
+    monthly: 12,
+    yearly: 10,
     note: "per member, per month",
     features: [
       "Unlimited members",
@@ -28,11 +34,13 @@ const plans = [
       "Priority support",
     ],
     cta: "Start free trial",
+    href: "/signup",
     featured: true,
   },
   {
     name: "Business",
-    price: "$24",
+    monthly: 24,
+    yearly: 19,
     note: "per member, per month",
     features: [
       "Everything in Team",
@@ -42,80 +50,77 @@ const plans = [
       "Dedicated manager",
     ],
     cta: "Talk to sales",
+    href: "/contact",
     featured: false,
   },
 ];
 
 export function Pricing() {
+  const [yearly, setYearly] = useState(true);
+
   return (
-    <section id="pricing" className="scroll-mt-20 py-20">
+    <section id="pricing" className="border-ink bg-surface scroll-mt-20 border-y-2 py-24">
       <div className="mx-auto max-w-6xl px-5">
-        <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Pricing that grows with you.
-        </h2>
-        <p className="text-ink-soft mt-4 max-w-xl text-lg">
-          Pick a plan today and change it any time. Every paid plan includes a 14-day
-          trial.
-        </p>
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <h2 className="font-display max-w-xl text-4xl leading-tight font-extrabold tracking-tight sm:text-6xl">
+            Simple pricing. No surprises.
+          </h2>
+          <div
+            role="group"
+            aria-label="Billing period"
+            className="border-ink flex rounded-full border-2 p-1 text-sm font-bold"
+          >
+            {[
+              { l: "Monthly", v: false },
+              { l: "Yearly · save 20%", v: true },
+            ].map((o) => (
+              <button
+                key={o.l}
+                type="button"
+                aria-pressed={yearly === o.v}
+                onClick={() => setYearly(o.v)}
+                className={cn(
+                  "rounded-full px-4 py-2 transition-colors",
+                  yearly === o.v ? "bg-ink text-white" : "text-ink-soft",
+                )}
+              >
+                {o.l}
+              </button>
+            ))}
+          </div>
+        </div>
 
         <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-3">
           {plans.map((p) => (
             <div
               key={p.name}
-              className={cn(
-                "flex flex-col rounded-3xl p-8",
-                p.featured
-                  ? "bg-ink shadow-brand/20 text-white shadow-2xl lg:-my-3"
-                  : "border-line bg-surface border",
-              )}
+              className={cn("sticker flex flex-col p-8", p.featured && "bg-lime")}
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-display text-2xl font-bold">{p.name}</h3>
                 {p.featured && (
-                  <span className="bg-signal text-ink rounded-full px-3 py-1 text-xs font-semibold">
+                  <span className="bg-ink rounded-full px-3 py-1 text-xs font-bold text-white">
                     Most popular
                   </span>
                 )}
               </div>
-              <p className="font-display mt-6 text-5xl font-extrabold">{p.price}</p>
-              <p
-                className={cn(
-                  "mt-1 text-sm",
-                  p.featured ? "text-white/65" : "text-ink-soft",
-                )}
-              >
-                {p.note}
+              <p className="font-display mt-6 text-6xl font-extrabold">
+                ${yearly ? p.yearly : p.monthly}
               </p>
+              <p className="text-ink-soft mt-1 text-sm">{p.note}</p>
               <ul className="mt-8 flex-1 space-y-3">
                 {p.features.map((f) => (
-                  <li key={f} className="flex gap-3 text-[15px]">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className={cn(
-                        "mt-0.5 size-5 shrink-0",
-                        p.featured ? "text-signal" : "text-brand",
-                      )}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M5 12l4 4 10-10" />
-                    </svg>
+                  <li key={f} className="flex gap-3 text-[15px] font-medium">
+                    <span aria-hidden="true" className="font-bold">
+                      ✓
+                    </span>
                     {f}
                   </li>
                 ))}
               </ul>
               <Link
-                href="/contact"
-                className={cn(
-                  "mt-8 rounded-full px-6 py-3 text-center font-semibold transition-colors",
-                  p.featured
-                    ? "bg-brand hover:text-ink text-white hover:bg-white"
-                    : "border-ink/15 hover:border-ink/40 border",
-                )}
+                href={p.href}
+                className={cn("mt-8 text-center", p.featured ? "btn-ink" : "btn-outline")}
               >
                 {p.cta}
               </Link>

@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 
 import { ActivityList } from "@/features/overview/components/ActivityList";
 import { CollapsiblePanel } from "@/features/overview/components/CollapsiblePanel";
+import { ProjectProgress } from "@/features/overview/components/ProjectProgress";
 import { StatCard } from "@/features/overview/components/StatCard";
-import { getActivity, getOverviewStats, getWorkspace } from "@/features/workspaces/data";
+import {
+  getActivity,
+  getOverviewStats,
+  getProjects,
+  getWorkspace,
+} from "@/features/workspaces/data";
 
 export const metadata: Metadata = { title: "Overview" };
 
@@ -13,29 +19,54 @@ export default async function OverviewPage({
   params: Promise<{ workspace: string }>;
 }) {
   const { workspace: slug } = await params;
-
-  // Day 3 exercise: this prints in the TERMINAL running `npm run dev`, never in the browser.
-  // eslint-disable-next-line no-console
-  console.log("[server] OverviewPage rendered for", slug);
-
   const workspace = getWorkspace(slug);
-  const [stats, activity] = await Promise.all([getOverviewStats(slug), getActivity(slug)]);
+  const [stats, activity, projects] = await Promise.all([
+    getOverviewStats(slug),
+    getActivity(slug),
+    getProjects(slug),
+  ]);
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-extrabold tracking-tight">{workspace?.name}</h1>
-      <p className="mt-2 text-ink-soft">Here is where your team stands today.</p>
+      <p className="text-brand text-xs font-bold tracking-widest uppercase">Overview</p>
+      <h1 className="font-display mt-1 text-4xl font-extrabold tracking-tight sm:text-5xl">
+        <span className="marker">{workspace?.name}</span>
+      </h1>
+      <p className="text-ink-soft mt-3">Here is where your team stands today.</p>
 
-      <dl className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Projects" value={stats.projects} hint="In this workspace" />
-        <StatCard label="Active now" value={stats.active} hint="Currently in progress" />
-        <StatCard label="Average progress" value={`${stats.avgProgress}%`} hint="Across all projects" />
-        <StatCard label="Due in 30 days" value={stats.dueSoon} hint="Not yet completed" />
+      <dl className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard
+          tone="lime"
+          label="Projects"
+          value={stats.projects}
+          hint="In this workspace"
+        />
+        <StatCard
+          tone="brand"
+          label="Active now"
+          value={stats.active}
+          hint="Currently in progress"
+        />
+        <StatCard
+          tone="white"
+          label="Avg progress"
+          value={`${stats.avgProgress}%`}
+          hint="Across all projects"
+        />
+        <StatCard
+          tone="ink"
+          label="Due in 30 days"
+          value={stats.dueSoon}
+          hint="Not yet completed"
+        />
       </dl>
 
-      <CollapsiblePanel title="Recent activity">
-        <ActivityList items={activity} />
-      </CollapsiblePanel>
+      <div className="mt-8 grid items-start gap-6 xl:grid-cols-[1.5fr_1fr]">
+        <CollapsiblePanel title="Recent activity">
+          <ActivityList items={activity} />
+        </CollapsiblePanel>
+        <ProjectProgress workspace={slug} projects={projects} />
+      </div>
     </div>
   );
 }

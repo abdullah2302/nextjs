@@ -3,11 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { DEFAULT_WORKSPACE } from "@/features/workspaces/data";
+import { fieldClass } from "@/lib/ui";
 
 export const metadata: Metadata = { title: "Log in" };
-
-const field =
-  "mt-1.5 w-full rounded-xl border border-line bg-surface px-4 py-3 outline-none transition-colors focus:border-brand";
 
 async function login() {
   "use server";
@@ -18,11 +16,13 @@ async function login() {
 export default function LoginPage() {
   return (
     <>
-      <h1 className="font-display text-3xl font-extrabold">Welcome back</h1>
+      <h1 className="font-display text-4xl font-extrabold">
+        Welcome <span className="marker">back</span>
+      </h1>
       <p className="text-ink-soft mt-2">Log in to open your workspace.</p>
-      <form action={login} className="mt-6 space-y-5">
+      <form action={login} className="mt-7 space-y-5">
         <div>
-          <label htmlFor="email" className="text-sm font-semibold">
+          <label htmlFor="email" className="text-sm font-bold">
             Email
           </label>
           <input
@@ -31,11 +31,12 @@ export default function LoginPage() {
             type="email"
             required
             autoComplete="email"
-            className={field}
+            placeholder="you@company.com"
+            className={fieldClass}
           />
         </div>
         <div>
-          <label htmlFor="password" className="text-sm font-semibold">
+          <label htmlFor="password" className="text-sm font-bold">
             Password
           </label>
           <input
@@ -44,19 +45,17 @@ export default function LoginPage() {
             type="password"
             required
             autoComplete="current-password"
-            className={field}
+            placeholder="Your password"
+            className={fieldClass}
           />
         </div>
-        <button
-          type="submit"
-          className="bg-brand hover:bg-brand-deep w-full rounded-full px-6 py-3.5 font-semibold text-white"
-        >
+        <button type="submit" className="btn-ink w-full">
           Log in
         </button>
       </form>
       <p className="text-ink-soft mt-6 text-center text-sm">
         New to TeamFlow?{" "}
-        <Link href="/signup" className="text-brand font-semibold hover:underline">
+        <Link href="/signup" className="text-brand font-bold underline">
           Create an account
         </Link>
       </p>

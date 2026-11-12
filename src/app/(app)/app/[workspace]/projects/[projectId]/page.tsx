@@ -21,32 +21,45 @@ export default async function ProjectPage({ params }: PageProps) {
   const project = await getProject(workspace, projectId);
   if (!project) notFound();
 
+  const facts = [
+    { l: "Status", v: project.status },
+    { l: "Owner", v: project.owner },
+    { l: "Due date", v: project.due },
+  ];
+
   return (
     <div>
       <Link
         href={`/app/${workspace}/projects`}
-        className="text-brand text-sm font-medium hover:underline"
+        className="text-brand text-sm font-bold hover:underline"
       >
-        Back to projects
+        ← Back to projects
       </Link>
-      <h1 className="font-display mt-4 text-4xl font-extrabold tracking-tight">
-        {project.name}
+      <h1 className="font-display mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+        <span className="marker">{project.name}</span>
       </h1>
-      <p className="text-ink-soft mt-2">
-        Owned by {project.owner}. Due {project.due}.
-      </p>
 
-      <div className="border-line bg-surface mt-8 max-w-xl rounded-2xl border p-6">
-        <div className="flex justify-between text-sm">
-          <span className="font-semibold">{project.status}</span>
-          <span className="text-ink-soft">{project.progress}% complete</span>
+      <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+        <div className="sticker p-6">
+          <div className="flex items-end justify-between">
+            <p className="font-display text-6xl leading-none font-extrabold">
+              {project.progress}%
+            </p>
+            <p className="text-ink-soft text-sm font-semibold">complete</p>
+          </div>
+          <div className="border-edge bg-paper mt-5 h-5 overflow-hidden rounded-full border-2">
+            <div className="bg-brand h-full" style={{ width: `${project.progress}%` }} />
+          </div>
         </div>
-        <div className="bg-paper mt-3 h-3 overflow-hidden rounded-full">
-          <div
-            className="bg-brand h-full rounded-full"
-            style={{ width: `${project.progress}%` }}
-          />
-        </div>
+
+        <dl className="sticker divide-line divide-y-2">
+          {facts.map((f) => (
+            <div key={f.l} className="flex justify-between gap-4 px-5 py-4">
+              <dt className="text-ink-soft">{f.l}</dt>
+              <dd className="font-bold">{f.v}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   );

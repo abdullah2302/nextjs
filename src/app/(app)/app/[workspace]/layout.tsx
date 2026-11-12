@@ -10,7 +10,10 @@ interface WorkspaceLayoutProps {
   params: Promise<{ workspace: string }>;
 }
 
-export default async function WorkspaceLayout({ children, params }: WorkspaceLayoutProps) {
+export default async function WorkspaceLayout({
+  children,
+  params,
+}: WorkspaceLayoutProps) {
   const { workspace: slug } = await params;
   const workspace = getWorkspace(slug);
 

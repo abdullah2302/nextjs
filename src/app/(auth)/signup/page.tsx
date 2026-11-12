@@ -3,11 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { DEFAULT_WORKSPACE } from "@/features/workspaces/data";
+import { fieldClass } from "@/lib/ui";
 
 export const metadata: Metadata = { title: "Create account" };
-
-const field =
-  "mt-1.5 w-full rounded-xl border border-line bg-surface px-4 py-3 outline-none transition-colors focus:border-brand";
 
 async function signup() {
   "use server";
@@ -17,13 +15,15 @@ async function signup() {
 export default function SignupPage() {
   return (
     <>
-      <h1 className="font-display text-3xl font-extrabold">Create your account</h1>
+      <h1 className="font-display text-4xl font-extrabold">
+        Create your <span className="marker">account</span>
+      </h1>
       <p className="text-ink-soft mt-2">
         Start your 14-day free trial. No credit card needed.
       </p>
-      <form action={signup} className="mt-6 space-y-5">
+      <form action={signup} className="mt-7 space-y-5">
         <div>
-          <label htmlFor="name" className="text-sm font-semibold">
+          <label htmlFor="name" className="text-sm font-bold">
             Full name
           </label>
           <input
@@ -32,11 +32,12 @@ export default function SignupPage() {
             type="text"
             required
             autoComplete="name"
-            className={field}
+            placeholder="Your name"
+            className={fieldClass}
           />
         </div>
         <div>
-          <label htmlFor="email" className="text-sm font-semibold">
+          <label htmlFor="email" className="text-sm font-bold">
             Work email
           </label>
           <input
@@ -45,11 +46,12 @@ export default function SignupPage() {
             type="email"
             required
             autoComplete="email"
-            className={field}
+            placeholder="you@company.com"
+            className={fieldClass}
           />
         </div>
         <div>
-          <label htmlFor="password" className="text-sm font-semibold">
+          <label htmlFor="password" className="text-sm font-bold">
             Password
           </label>
           <input
@@ -59,19 +61,17 @@ export default function SignupPage() {
             required
             minLength={8}
             autoComplete="new-password"
-            className={field}
+            placeholder="At least 8 characters"
+            className={fieldClass}
           />
         </div>
-        <button
-          type="submit"
-          className="bg-brand hover:bg-brand-deep w-full rounded-full px-6 py-3.5 font-semibold text-white"
-        >
+        <button type="submit" className="btn-ink w-full">
           Create account
         </button>
       </form>
       <p className="text-ink-soft mt-6 text-center text-sm">
         Already have an account?{" "}
-        <Link href="/login" className="text-brand font-semibold hover:underline">
+        <Link href="/login" className="text-brand font-bold underline">
           Log in
         </Link>
       </p>

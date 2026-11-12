@@ -35,18 +35,21 @@ export function Breadcrumbs() {
             )}
           >
             {index > 0 && (
-              <span aria-hidden="true" className="text-line">
+              <span aria-hidden="true" className="text-ink-soft font-bold">
                 /
               </span>
             )}
             {crumb.current ? (
-              <span aria-current="page" className="text-ink truncate font-semibold">
+              <span
+                aria-current="page"
+                className="bg-lime text-ink truncate rounded-md px-2 py-0.5 font-bold"
+              >
                 {crumb.label}
               </span>
             ) : (
               <Link
                 href={crumb.href}
-                className="text-ink-soft hover:text-ink transition-colors"
+                className="text-ink-soft hover:text-ink font-medium transition-colors"
               >
                 {crumb.label}
               </Link>

@@ -15,16 +15,19 @@ export function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="border-line bg-paper/85 sticky top-0 z-40 border-b backdrop-blur">
+    <header className="border-ink bg-paper/90 sticky top-0 z-40 border-b-2 backdrop-blur">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-        <Link href="/" className="font-display flex items-center gap-2 text-xl font-bold">
-          <span className="bg-brand grid size-8 place-items-center rounded-lg text-white">
+        <Link
+          href="/"
+          className="font-display flex items-center gap-2 text-xl font-extrabold"
+        >
+          <span className="border-ink bg-lime grid size-8 place-items-center rounded-lg border-2">
             <svg
               viewBox="0 0 24 24"
               className="size-5"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.4"
+              strokeWidth="2.6"
               strokeLinecap="round"
             >
               <path d="M4 8h10M4 16h16M14 8l3-3m-3 3l3 3" />
@@ -40,10 +43,8 @@ export function Navbar() {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                  isActive(item.href)
-                    ? "bg-ink text-white"
-                    : "text-ink-soft hover:bg-line/60 hover:text-ink",
+                  "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                  isActive(item.href) ? "bg-ink text-white" : "hover:bg-lime",
                 )}
               >
                 {item.label}
@@ -52,24 +53,21 @@ export function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <Link
-            href="/login"
-            className="text-ink-soft hover:text-ink rounded-full px-4 py-2 text-sm font-medium"
-          >
+        <div className="hidden items-center gap-3 md:flex">
+          <Link href="/login" className="text-sm font-semibold hover:underline">
             Log in
           </Link>
           <Link
-            href="/#pricing"
-            className="bg-brand hover:bg-brand-deep rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-colors"
+            href="/signup"
+            className="border-ink bg-ink rounded-full border-2 px-5 py-2 text-sm font-bold text-white shadow-[3px_3px_0_0_var(--color-lime)] transition-transform hover:-translate-y-0.5"
           >
-            Start free trial
+            Start free
           </Link>
         </div>
 
         <button
           type="button"
-          className="border-line grid size-10 place-items-center rounded-lg border md:hidden"
+          className="border-ink grid size-10 place-items-center rounded-lg border-2 md:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -80,7 +78,7 @@ export function Navbar() {
             className="size-5"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="2.2"
             strokeLinecap="round"
           >
             {open ? (
@@ -95,7 +93,7 @@ export function Navbar() {
       {open && (
         <div
           id="mobile-menu"
-          className="border-line bg-paper border-t px-5 pb-5 md:hidden"
+          className="border-ink bg-paper border-t-2 px-5 pb-5 md:hidden"
         >
           <ul className="flex flex-col gap-1 pt-3">
             {siteConfig.nav.map((item) => (
@@ -104,8 +102,8 @@ export function Navbar() {
                   href={item.href}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    "block rounded-lg px-3 py-3 text-base font-medium",
-                    isActive(item.href) ? "bg-ink text-white" : "text-ink-soft",
+                    "block rounded-lg px-3 py-3 text-base font-semibold",
+                    isActive(item.href) ? "bg-ink text-white" : "",
                   )}
                 >
                   {item.label}
@@ -113,20 +111,22 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <Link
-            href="/login"
-            onClick={() => setOpen(false)}
-            className="border-line mt-3 block rounded-full border px-5 py-3 text-center font-semibold"
-          >
-            Log in
-          </Link>
-          <Link
-            href="/#pricing"
-            onClick={() => setOpen(false)}
-            className="bg-brand mt-3 block rounded-full px-5 py-3 text-center font-semibold text-white"
-          >
-            Start free trial
-          </Link>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <Link
+              href="/login"
+              onClick={() => setOpen(false)}
+              className="border-ink rounded-full border-2 px-5 py-3 text-center font-bold"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/signup"
+              onClick={() => setOpen(false)}
+              className="border-ink bg-lime rounded-full border-2 px-5 py-3 text-center font-bold"
+            >
+              Start free
+            </Link>
+          </div>
         </div>
       )}
     </header>

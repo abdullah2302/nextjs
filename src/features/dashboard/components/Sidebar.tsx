@@ -33,7 +33,7 @@ export function Sidebar({
             strokeWidth="2.6"
             strokeLinecap="round"
           >
-            <path d="M4 8h10M4 16h16M14 8l3-3m-3 3l3 3" />
+            <path d="M4 8h13m-4-3.5l4 3.5-4 3.5M4 16h16" />
           </svg>
         </span>
         TeamFlow

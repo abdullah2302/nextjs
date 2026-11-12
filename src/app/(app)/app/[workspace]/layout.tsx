@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
@@ -9,18 +10,18 @@ interface WorkspaceLayoutProps {
   params: Promise<{ workspace: string }>;
 }
 
-export default async function WorkspaceLayout({
-  children,
-  params,
-}: WorkspaceLayoutProps) {
+export default async function WorkspaceLayout({ children, params }: WorkspaceLayoutProps) {
   const { workspace: slug } = await params;
   const workspace = getWorkspace(slug);
 
   // Invalid slug: handled by app/(app)/app/not-found.tsx (branded 404, no shell).
   if (!workspace) notFound();
 
+  const cookieStore = await cookies();
+  const theme = cookieStore.get("theme")?.value === "dark" ? "dark" : "light";
+
   return (
-    <DashboardShell workspace={workspace} workspaces={listWorkspaces()}>
+    <DashboardShell workspace={workspace} workspaces={listWorkspaces()} theme={theme}>
       {children}
     </DashboardShell>
   );

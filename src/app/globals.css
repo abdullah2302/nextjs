@@ -10,8 +10,18 @@
   --color-brand-deep: #2824a8;
   --color-signal: #19c37d;
   --color-amber: #f5a524;
+  --color-chrome: #0e1a2b;
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+}
+
+[data-theme="dark"] {
+  --color-ink: #e8edf5;
+  --color-ink-soft: #9aa8bd;
+  --color-paper: #0a1120;
+  --color-surface: #121b2e;
+  --color-line: #24304a;
+  color-scheme: dark;
 }
 
 html {

@@ -19,12 +19,9 @@ export function Sidebar({
   const items = getNavItems(workspace);
 
   return (
-    <aside className="bg-ink fixed inset-y-0 left-0 hidden w-64 flex-col text-white lg:flex">
-      <Link
-        href="/"
-        className="font-display flex items-center gap-2 px-6 py-6 text-xl font-bold"
-      >
-        <span className="bg-brand grid size-8 place-items-center rounded-lg">
+    <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col bg-chrome text-white lg:flex">
+      <Link href="/" className="flex items-center gap-2 px-6 py-6 font-display text-xl font-bold">
+        <span className="grid size-8 place-items-center rounded-lg bg-brand">
           <svg
             viewBox="0 0 24 24"
             className="size-5"
@@ -40,7 +37,7 @@ export function Sidebar({
       </Link>
 
       <p className="px-6 pb-2 text-xs text-white/50">Workspace</p>
-      <p className="font-display px-6 pb-5 text-lg font-semibold">{workspaceName}</p>
+      <p className="px-6 pb-5 font-display text-lg font-semibold">{workspaceName}</p>
 
       <nav aria-label="Workspace" className="flex-1 space-y-1 px-3">
         {items.map((item) => {
@@ -52,9 +49,7 @@ export function Sidebar({
               aria-current={active ? "page" : undefined}
               className={cn(
                 "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                active
-                  ? "text-ink bg-white"
-                  : "text-white/70 hover:bg-white/10 hover:text-white",
+                active ? "bg-white text-chrome" : "text-white/70 hover:bg-white/10 hover:text-white",
               )}
             >
               <NavIcon path={item.icon} />

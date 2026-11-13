@@ -4,7 +4,9 @@ import type { ReactNode } from "react";
 
 import { siteConfig } from "@/config/site";
 
+// @ts-expect-error CSS is processed by Next.js and does not expose TypeScript declarations.
 import "./globals.css";
+import { ExitIntent } from "@/features/landing/components/ExitIntent";
 
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -30,7 +32,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">{children}
+          <ExitIntent />
+      </body>
     </html>
   );
 }

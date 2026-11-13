@@ -1,4 +1,5 @@
 /*! exit-intent-popup.js | Web Component, no dependencies, works in any framework */
+/* eslint-disable */
 (function () {
   if (typeof window === "undefined" || customElements.get("exit-intent-popup")) return;
 
